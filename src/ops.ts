@@ -276,6 +276,21 @@ defBW("square", (g, x) => {
   return g.mul(x.mul(two));
 });
 
+export const pow = defFW("pow", (x: types.Storage, e: types.Storage) => {
+  return bo.pow(x, e);
+});
+defBW("pow", (g: Tensor) => {
+  throw Error("Not Implemented.");
+});
+
+export const sqrt = defFW("sqrt", (x: types.Storage) => {
+  saveForBackward(x);
+  return bo.sqrt(x);
+});
+defBW("sqrt", (g: Tensor, x: Tensor) => {
+  return g.mul(x.pow(-0.5).mul(0.5));
+});
+
 export const sin = defFW("sin", (x) => {
   saveForBackward(x);
   return bo.sin(x);
