@@ -169,7 +169,9 @@ export abstract class Experiment {
     gc((keep) => {
       const gradFn = gradParams(lossFn);
       // Forward/Backward pass
+      (this.currentParams as any).isTraining = true;
       const gradsAndLoss = gradFn(this.currentParams);
+      (this.currentParams as any).isTraining = false;
       const grads = gradsAndLoss[0];
       loss = gradsAndLoss[1];
       assert(loss.rank === 0);
